@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+  <Description about="urn:mozilla:install-manifest">
+    <em:id>mozcc@creativecommons.org</em:id>
+    <em:version>2.0</em:version>
+    <em:type>2</em:type>
+   
+    <!-- Target Application this extension can install into, 
+         with minimum and maximum supported versions. --> 
+    <em:targetApplication>
+      <Description>
+        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+        <em:minVersion>2.0b1</em:minVersion>
+        <em:maxVersion>2.0b1</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+   
+    <!-- Front End MetaData -->
+    <em:name>MozCC</em:name>
+    <em:description>Extracts and stores metadata embedded in pages, exposing Creative Commons license metadata.</em:description>
+    <em:creator>Creative Commons</em:creator>
+    <em:homepageURL>http://wiki.creativecommons.org/MozCC</em:homepageURL>
+  </Description>      
+</RDF>
