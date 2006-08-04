@@ -90,7 +90,7 @@
   <statusbarpanel id="mozcc-info" tooltip="mozcc-tooltip"
 		  src="chrome://mozcc/content/icons/cc_20.png" 
 		  class="statusbarpanel-menu-iconic"
-		  onclick="open_license()" >
+		  onclick="BrowserPageInfo(null, 'mozccTab');" >
     <tooltip id="mozcc-tooltip">
       <vbox>
 	<description id="mozcc-license-uri" value="" />
