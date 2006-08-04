@@ -74,7 +74,7 @@ function _mfs_initialize() {
     const SQL_INIT_MF_DATA = "INSERT INTO mozcc VALUES ('version', " + this.SCHEMA_VERSION + ")";
 
     const PAGES_SCHEMA = "uri TEXT, lastModified TEXT, UNIQUE(uri) ON CONFLICT REPLACE";
-    const METADATA_SCHEMA = "subject TEXT, predicate TEXT, object TEXT, page INTEGER DEFAULT -1, provider TEXT";
+    const METADATA_SCHEMA = "subject TEXT, predicate TEXT, object TEXT, page TEXT, provider TEXT";
 
     ///////////////////////////////////////////////////////////////////////
 
@@ -127,7 +127,7 @@ function _mfs_needs_update(uri, lastModified) {
 
 function _mfs_update(uri, lastModified) {
     const SQL_DELETE_PAGE = "DELETE FROM pages WHERE uri=?1";
-    const SQL_UPDATE_PAGE = "REPLACE INTO pages VALUES (?1, ?2)";
+    const SQL_UPDATE_PAGE = "REPLACE INTO pages (uri, lastModified) VALUES (?1, ?2)";
 
     var stmt = this.dbConn.createStatement(SQL_UPDATE_PAGE);
 
@@ -139,6 +139,8 @@ function _mfs_update(uri, lastModified) {
 
 function _mfs_page_id(uri) {
 
+    return uri;
+    /*
     const SQL_SELECT_PAGE = "SELECT ROWID FROM pages WHERE uri=?1";
 
 
@@ -161,9 +163,34 @@ function _mfs_page_id(uri) {
 	// reset the statement to clear locks
 	if (stmt) stmt.reset();
     }
-
+    */
 
 } // _mfs_page_id
+
+function _mfs_pages() {
+
+    const SQL_ALL_PAGES = "SELECT ROWID, uri, lastModified FROM pages";
+
+    var result = new Array();
+
+    try {
+	var stmt = this.dbConn.createStatement(SQL_ALL_PAGES);
+
+	while(stmt.executeStep()) {
+
+	    result.push([stmt.getUTF8String(0),
+			 stmt.getUTF8String(1),
+			 stmt.getUTF8String(2)]);
+	} // while more data...
+    } finally {
+	// clean up the statement
+	if (stmt) stmt.reset();
+    } 
+
+
+    return result;
+
+} // _mfs_pages
 
 function _mfs_flush_assertions(pageid, provider) {
 
@@ -193,7 +220,7 @@ function _mfs_assert(pageid, triple, provider) {
     stmt.bindUTF8StringParameter(1, triple.predicate.Value);
     stmt.bindUTF8StringParameter(2, triple.object.Value);
 
-    stmt.bindInt32Parameter(3, pageid);
+    stmt.bindUTF8StringParameter(3, pageid);
     stmt.bindUTF8StringParameter(4, provider);
 
     stmt.execute();
@@ -271,7 +298,7 @@ function _mfs_predicates(subject) {
 
 function _mfs_pred_obj_for_subject(subject) {
 
-    const SQL_QUERY = "SELECT DISTINCT predicate, object FROM meta WHERE subject like ?1 ORDER BY predicate, object";
+    const SQL_QUERY = "SELECT DISTINCT meta.predicate, meta.object, meta.page, meta.provider FROM meta WHERE meta.subject like ?1 ORDER BY meta.predicate, meta.object";
 
     var result = new Array();
 
@@ -280,7 +307,10 @@ function _mfs_pred_obj_for_subject(subject) {
 	stmt.bindUTF8StringParameter(0, subject);
 
 	while (stmt.executeStep()) {
-	    result.push([stmt.getUTF8String(0), stmt.getUTF8String(1)]);
+	    result.push([stmt.getUTF8String(0), 
+			 stmt.getUTF8String(1),
+			 stmt.getUTF8String(2),
+			 stmt.getUTF8String(3)]);
 	} // while more data...
 
     } finally {
@@ -316,6 +346,8 @@ function MozccStorage() {
     this.assert_for_uri = _mfs_assert_for_uri;
     this.assert = _mfs_assert;
     this.flush_assertions = _mfs_flush_assertions;
+
+    this.pages = _mfs_pages;
 
     // open the mozStorage database
     this.open();
