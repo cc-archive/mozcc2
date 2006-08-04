@@ -271,7 +271,7 @@ function _mfs_predicates(subject) {
 
 function _mfs_pred_obj_for_subject(subject) {
 
-    const SQL_QUERY = "SELECT DISTINCT predicate, object FROM meta WHERE subject like ?1";
+    const SQL_QUERY = "SELECT DISTINCT predicate, object FROM meta WHERE subject like ?1 ORDER BY predicate, object";
 
     var result = new Array();
 
