@@ -47,12 +47,20 @@
 	<label value="http://foo/bar" id="mozcc-page-uri" />
 	<label value="has the following attributes:"/>
 
-<tree rows="7" flex="1" hidecolumnpicker="true" id="mozcc-tree"
+<tree rows="7" flex="1" id="mozcc-tree"
       ondblclick="on_dbl_click_item();">
   <treecols>
-    <treecol id="pred-col" label="Predicate" flex="1" primary="false"/>
+    <treecol id="pred-col" label="Predicate" flex="2" 
+	     persist="width ordinal hidden"/>
     <splitter class="tree-splitter" />
-    <treecol id="obj-col" label="Object" flex="1"/>
+    <treecol id="obj-col" label="Object" flex="2"
+	     persist="width ordinal hidden"/>
+    <splitter class="tree-splitter" />
+    <treecol id="source-col" label="Source" flex="2"
+	     persist="width ordinal hidden"/>
+    <splitter class="tree-splitter" />
+    <treecol id="extractor-col" label="Extracted From" flex="1" hidden="true"
+	     persist="width ordinal hidden"/>
   </treecols>
 
   <treechildren id="mozcc-tree-children">

@@ -167,15 +167,13 @@ function MozccLoadFunc() {
     var last = "XXX";
     for each (var meta in meta_rows) {
 	    // see if we need to repeat the predicate
-	    if (meta[0] != last) {
-		last = meta[0];
-		var row = addRow("mozcc-tree-children", meta);
-		row.setAttribute("style", "border-top: 1px solid #000;");
-	    } else {
-		addRow("mozcc-tree-children", ["", meta[1]]);
-	    }
+	    if (meta[0] == last) {
+		meta[0] = "";
+	    } // if the first column is repeated
+	    else { last=meta[0];}
 
-	}
+	    addRow("mozcc-tree-children", meta);
+	} // for each metadata row
 
 } // MozccLoadFunc
 
