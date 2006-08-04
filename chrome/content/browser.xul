@@ -74,6 +74,17 @@
 
 
  <!-- user interface overlay for the browser window -->
+
+ <!-- menu bar -->
+ <menubar id="main-menubar">
+   <menu id="metadata-menu" label="Metadata">
+     <menupopup>
+       <menuitem label="Pages" oncommand="window.openDialog('chrome://mozcc/conent/windows/pages.xul');" />
+     </menupopup>
+   </menu>
+ </menubar>
+
+ <!-- statusbar -->
  <statusbar id="status-bar">
 
   <statusbarpanel id="mozcc-info" tooltip="mozcc-tooltip"
