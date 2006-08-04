@@ -116,6 +116,7 @@ function rdf_link(meta_doc) {
 
 		meta_doc = event.target.meta_doc;
 		remote_uri = event.target.remote_uri;
+		var remote_pageid = -1;
 
 		// check our record last-modified information if the server
 		// provided a last-modified header for the request
@@ -125,8 +126,14 @@ function rdf_link(meta_doc) {
 			 return;
 
 		} else {
+		    // make sure we're in the pages table
+		    getStorage().update(remote_uri, lastModified);
+
+		    // get the page id for the remote data source
+		    remote_pageid = getStorage().page_id(remote_uri);
+
 		    // flush the current rdf for this page + provider
-		    getStorage().flush_assertions(meta_doc.page_id, RDF_LINK);
+		    getStorage().flush_assertions(remote_pageid, RDF_LINK);
 
 		} // if needs updated
 
@@ -136,17 +143,12 @@ function rdf_link(meta_doc) {
 
 		for each (var block in results) {
 			for each (var t in block.triples()) {
-				getStorage().assert(meta_doc.page_id, t, RDF_LINK);
-				// logMessage(t);
+				getStorage().assert(remote_pageid, t, RDF_LINK);
+				// logMessage(remote_pageid + " " + t);
 			    } // for each triple...
 
 		    } // for each RDF block extracted
 		 
-		// record the lastModified header or hash to avoid future work
-		if (lastModified != null) {
-		    getStorage().update(remote_uri, lastModified);
-		}
-
 		// make another call to the tab selector to pick up any changes
 		onSelectTab(null);
 
