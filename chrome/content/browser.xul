@@ -37,8 +37,6 @@
           src="chrome://mozcc/content/storage.js" />
   <script type="application/x-javascript" 
           src="chrome://mozcc/content/ccrdf.js" />
-<!--  <script type="application/x-javascript"
-	  src="chrome://mozcc/content/rdfa_parse.js" />-->
   <script type="application/x-javascript" 
           src="chrome://mozcc/content/mozcc.js" /> 
   <script type="application/x-javascript" 
@@ -49,8 +47,10 @@
           src="chrome://mozcc/content/extractor/rdfcomment.js" />
   <script type="application/x-javascript" 
           src="chrome://mozcc/content/extractor/rdf_link.js" />
-<!--  <script type="application/x-javascript" 
-          src="chrome://mozcc/content/extractor/rdfa.js" />-->
+  <script type="application/x-javascript"
+	  src="chrome://mozcc/content/extractor/rdfa.js" />
+  <script type="application/x-javascript"
+	  src="chrome://mozcc/content/support/rdfa.js" />
 
  <!-- initialize the mozcc hooks -->
  <script type="application/x-javascript" >
@@ -61,7 +61,7 @@
     // register the metadata extractors
     metadataExtractorRegistry[RDFCOMMENT] = rdfcomment;
     metadataExtractorRegistry[RDF_LINK] = rdf_link;
-    // metadataExtractorRegistry.push(rdfa);
+    // metadataExtractorRegistry[RDFA_EXTRACTOR] = rdfa_extractor;
     
     // connect the event listeners
     // listen for navigation events

@@ -158,6 +158,8 @@ function rdf_link(meta_doc) {
 	    req.send(null);
 
 	} // for each...
+
 	logMessage("rdf_link completed.");
+	onSelectTab(null);
 
 } //rdf_link

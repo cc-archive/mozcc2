@@ -29,7 +29,7 @@
 # -----------------------
 
 # register directories
-content	mozcc		chrome/content/ 
+content	mozcc		chrome/content/  xpcnativewrappers=yes
 
 # register overlays
 overlay	chrome://browser/content/browser.xul	chrome://mozcc/content/browser.xul
