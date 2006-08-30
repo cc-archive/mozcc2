@@ -216,9 +216,23 @@ function _mfs_assert(pageid, triple, provider) {
 	"VALUES (?1, ?2, ?3, ?4, ?5)";
 
     var stmt = this.dbConn.createStatement(SQL_ASSERT);
-    stmt.bindUTF8StringParameter(0, triple.subject.Value);
-    stmt.bindUTF8StringParameter(1, triple.predicate.Value);
-    stmt.bindUTF8StringParameter(2, triple.object.Value);
+    stmt.bindUTF8StringParameter(0, triple.subject.Value != null? 
+				 triple.subject.Value: triple.subject);
+
+    if (triple.predicate.Value != null) {
+	stmt.bindUTF8StringParameter(1, triple.predicate.Value);
+    } else {
+
+	// assume this is an RDFa triple
+	if (triple.predicate.suffix != 'license') {
+	    stmt.bindUTF8StringParameter(1, triple.predicate.uri());
+	} else {
+	    stmt.bindUTF8StringParameter(1, 'http://web.resource.org/cc/license');
+	}
+    }
+
+    stmt.bindUTF8StringParameter(2, triple.object.Value != null?
+				 triple.object.Value : triple.object);
 
     stmt.bindUTF8StringParameter(3, pageid);
     stmt.bindUTF8StringParameter(4, provider);
