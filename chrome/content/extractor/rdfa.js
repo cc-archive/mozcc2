@@ -24,24 +24,57 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
+const RDFA_EXTRACTOR='RDFa';
 
-function rdfa(meta_doc) {
+// declare the RDFA object as a browser-level object
+var RDFA = new Object();
 
+RDFA.CALLBACK_DONE_LOADING = function() {
 
-    logMessage("in rdfa...");
+    // rdfa.js has finished loading; register the extractor
+    metadataExtractorRegistry[RDFA_EXTRACTOR] = rdfa_extractor;
 
-    rdfa = new RDFA();
-    rdfa.parse(meta_doc.document.documentElement);
-    alert('foo');
-    var cc = new RDFA.Namespace('cc', 'http://web.resource.org/cc/');
-    var cc_license = new RDFA.CURIE(cc, 'license');
+} // CALLBACK_DONE_PARSING
 
-    triples = rdfa.getTriples('', cc_license);
+RDFA.CALLBACK_DONE_PARSING = function() {
 
-    if (triples)
-	alert(triples[0].object);
+} // CALLBACK_DONE_PARSING
 
+function rdfa_extractor(meta_doc) {
 
-    // alert('in commentRdf', meta_doc);
+    // short circuit -- if the page hasn't changed, the comments haven't either
+    if (!meta_doc.changed) return;
 
-} // commentRdf
+    // flush the current rdf for this page + provider
+    getStorage().flush_assertions(meta_doc.page_id, RDFA_EXTRACTOR);
+
+    // set up the post-parse handler
+    RDFA.reset();
+    RDFA.CALLBACK_DONE_PARSING = function() {
+
+	// iterate over our nested array
+	for (s in RDFA.triples) {
+	    for (p in RDFA.triples[s]) {
+		for each (var triple in RDFA.triples[s][p]) {
+			if (triple.subject != null) {
+			    if (!triple.subject) triple.subject = meta_doc.uri;
+
+			    logMessage(triple.pretty());
+
+			    getStorage().assert(meta_doc.page_id, 
+						triple,
+						RDFA_EXTRACTOR);
+
+			} // if this is a triple...
+
+		} // for each triple
+	    } // for each predicate
+	} // for each subject
+
+    } // CALLBACK_DONE_PARSING
+
+    // call the RDFA parser
+    RDFA.parse(meta_doc.document);
+
+    logMessage('rdfa completed');
+} // rdfa_extractor
