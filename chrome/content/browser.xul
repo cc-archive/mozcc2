@@ -76,6 +76,7 @@
  <!-- user interface overlay for the browser window -->
 
  <!-- menu bar -->
+<!--
  <menubar id="main-menubar">
    <menu id="metadata-menu" label="Metadata">
      <menupopup>
@@ -83,7 +84,7 @@
      </menupopup>
    </menu>
  </menubar>
-
+-->
  <!-- statusbar -->
  <statusbar id="status-bar">
 
