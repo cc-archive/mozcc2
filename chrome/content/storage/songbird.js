@@ -26,10 +26,6 @@
 
 const MediaLibrary = new Components.Constructor("@songbirdnest.com/Songbird/MediaLibrary;1", "sbIMediaLibrary");
 
-function _mfs_no_op() {
-
-}
-
 function has_column(mediaLibrary, col_name) {
 
     mediaLibrary.getColumnInfo();
@@ -61,61 +57,38 @@ function add_license_column(mediaLibrary) {
 
 } // add_license_column
 
-function foo() {
+function createLibraryHandle(library) {
+    // create and return a handle to the specified media library;
+    // also creates a DB query and associates it with the library instance
 
     // open a handle to the media library for web playlists
-    sbMediaLibrary = (new MediaLibrary()).QueryInterface(Components.interfaces.sbIMediaLibrary);   
+    result = (new MediaLibrary()).QueryInterface(
+			        Components.interfaces.sbIMediaLibrary);   
 
     aDBQuery = new sbIDatabaseQuery();
     aDBQuery.setAsyncQuery( false );
-    aDBQuery.setDatabaseGUID( "songbird" );
+    aDBQuery.setDatabaseGUID( library );
 
-    sbMediaLibrary.setQueryObject(aDBQuery);
+    result.setQueryObject(aDBQuery);
 
     // ensure the ccLicense metadata column is available
-    if (!has_column(sbMediaLibrary, "ccLicense")) {
-	add_license_column(sbMediaLibrary);
+    if (!has_column(result, "ccLicense")) {
+	add_license_column(result);
     }
-}
+
+    return result;
+} // createLibraryHandle
 
 function _mfs_open() {
 
-    // open a handle to the media library for web playlists
-    this.sbMediaLibrary = (new MediaLibrary()).QueryInterface(Components.interfaces.sbIMediaLibrary);   
+    // open a handle to the web playlist media library 
+    this.sbMediaLibrary = createLibraryHandle( WEB_PLAYLIST_CONTEXT );
 
-    this.aDBQuery = new sbIDatabaseQuery();
-    this.aDBQuery.setAsyncQuery( false );
-    this.aDBQuery.setDatabaseGUID( WEB_PLAYLIST_CONTEXT );
-
-    this.sbMediaLibrary.setQueryObject(this.aDBQuery);
-
-    // ensure the ccLicense metadata column is available
-    if (!has_column(this.sbMediaLibrary, "ccLicense")) {
-	add_license_column(this.sbMediaLibrary);
-    }
-
-    foo();
+    // open a handle to the "main" media library
+    // this just ensures the ccLicense column is created
+    createLibraryHandle("songbird");
 
 } // _mfs_open
-
-function _mfs_db_version () {
-    return 1;
-} // _mfs_db_version
-
-function _mfs_needs_update(uri, lastModified) {
-    return true;
-} // _mfs_needs_update
-
-function _mfs_page_id(uri) {
-
-    return uri;
-} // _mfs_page_id
-
-function _mfs_flush_assertions(pageid, provider) {
-
-    // XXX do something here songbird-ish
-
-} // _mfs_flush_assertions
 
 function _mfs_assert(pageid, triple, provider) {
 
@@ -154,16 +127,6 @@ function _mfs_assert_for_uri(uri, triple) {
 
 } // _mfs_assert_for_uri
 
-function _mfs_query(subject, predicate) {
-
-    return null;
-
-} // _mfs_query
-
-function _mfs_pred_obj_for_subject(subject) {
-    return null;
-} // _mfs_pred_obj_for_subject
-
 function MozccStorage() {
 
     // attach class properties
@@ -173,33 +136,27 @@ function MozccStorage() {
 
     // database/schema methods
     this.open = _mfs_open;
-    this.initialize = _mfs_no_op;
-    this.db_version = _mfs_db_version;
-    this.needs_update = _mfs_needs_update;
-    this.update = _mfs_no_op;
-    this.start_transaction = _mfs_start_transaction;
-    this.commit = _mfs_commit_transaction;
-    this.query = _mfs_query;
-    this.predicates = _mfs_no_op;
-    this.query_unique = _mfs_no_op;
-    this.query_by_subject = _mfs_pred_obj_for_subject;
+    this.initialize = function() {};
+    this.db_version = function() { return 1 };
+    this.needs_update = function() { return true };
+    this.update = function() {};
+    this.start_transaction = function () {};
+    this.commit = function() {};
+    this.query = function() {};
+    this.predicates = function() {};
+    this.query_unique = function() {};
+    this.query_by_subject = function() {};
 
     // extractor interface methods
-    this.page_id = _mfs_page_id;
+    this.page_id = function(uri) { return uri };
     this.assert_for_uri = _mfs_assert_for_uri;
     this.assert = _mfs_assert;
-    this.flush_assertions = _mfs_flush_assertions;
+    this.flush_assertions = function (page_id, provider) {};
 
-    this.pages = _mfs_no_op;
+    this.pages = function() {};
 
     // open the mozStorage database
     this.open();
-
-    function _mfs_start_transaction() {
-    } // _mfs_start_transaction
-
-    function _mfs_commit_transaction() {
-    } // _mfs_commit_transaction
 
 } // MozccStorage
 
