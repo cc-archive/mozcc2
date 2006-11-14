@@ -32,5 +32,12 @@
 content	mozcc		chrome/content/  xpcnativewrappers=yes
 
 # register overlays
-overlay	chrome://browser/content/browser.xul	chrome://mozcc/content/browser.xul
-overlay chrome://browser/content/pageInfo.xul	chrome://mozcc/content/pageInfo.xul
+# -----------------
+
+# Firefox
+
+overlay	chrome://browser/content/browser.xul	chrome://mozcc/content/browser.xul application=
+overlay chrome://browser/content/pageInfo.xul	chrome://mozcc/content/pageInfo.xul application={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
+
+# Songbird
+overlay chrome://rubberducky/content/xul/mainwin.xul chrome://mozcc/content/mainwin.xul application=songbird@songbirdnest.com

@@ -34,7 +34,7 @@
   <script type="application/x-javascript" 
           src="chrome://mozcc/content/support.js" />
   <script type="application/x-javascript" 
-          src="chrome://mozcc/content/storage.js" />
+          src="chrome://mozcc/content/storage/firefox.js" />
   <script type="application/x-javascript" 
           src="chrome://mozcc/content/ccrdf.js" />
   <script type="application/x-javascript" 

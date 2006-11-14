@@ -5,11 +5,10 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>{3b2b81a7-05f0-4ce5-9157-6414e2472266}</em:id>
-    <em:version>2.2.2</em:version>
+    <em:version>2.3.9</em:version>
     <em:type>2</em:type>
    
-    <!-- Target Application this extension can install into, 
-         with minimum and maximum supported versions. --> 
+    <!-- Firefox target application -->
     <em:targetApplication>
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
@@ -18,6 +17,15 @@
       </Description>
     </em:targetApplication>
    
+    <!-- Songbird target application. -->
+    <em:targetApplication>
+      <Description>
+        <em:id>songbird@songbirdnest.com </em:id>
+        <em:minVersion>0.2.0</em:minVersion>
+        <em:maxVersion>1.0+</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+
     <!-- Front End MetaData -->
     <em:name>MozCC</em:name>
     <em:description>Extracts and stores metadata embedded in pages, exposing Creative Commons license metadata.</em:description>
