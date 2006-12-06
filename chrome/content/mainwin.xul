@@ -26,9 +26,10 @@
    -
    - ***** END LICENSE BLOCK ***** -->
 
+<?xml-stylesheet href="chrome://mozcc/skin/mozcc.css" type="text/css" ?>
+
 <overlay id="mozcc-mainwin" 
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-
 
   <!-- load mozcc javascript libraries -->
   <script type="application/x-javascript" 
