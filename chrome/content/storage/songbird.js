@@ -43,11 +43,12 @@ function has_column(mediaLibrary, col_name) {
 
 function add_license_column(mediaLibrary) {
 
+    // create the license uri column
     mediaLibrary.addColumn("ccLicense", "TEXT DEFAULT ''");
     mediaLibrary.setColumnInfo("ccLicense",
 			       "License",
 			       true,
-			       true,
+			       false,
 			       true,
 			       1,
 			       100,
@@ -55,6 +56,27 @@ function add_license_column(mediaLibrary) {
 			       true,
 			       false);
 
+    // create the license code column (hidden, used for mapping properties)
+    mediaLibrary.addColumn("ccLicenseCode", "TEXT DEFAULT ''");
+    mediaLibrary.setColumnInfo("ccLicenseCode",
+			       "License Code",
+			       false,
+			       false,
+			       true,
+			       1,
+			       100,
+			       "TEXT",
+			       true,
+			       false);
+
+    // attach the RDF binding to the title column for license icon display
+    // mediaLibrary.getQueryObject().addQuery(
+
+    /*
+	      'none',
+	      'rdf:http://home.netscape.com/NC-rdf#ccLicenseCode',
+
+    */
 } // add_license_column
 
 function createLibraryHandle(library) {
@@ -108,11 +130,14 @@ function _mfs_assert(pageid, triple, provider) {
 
 	if (guid) {
 	    // add the license metadata
+	    license_uri_pieces = object.split("/");
+	    license_code = license_uri_pieces[license_uri_pieces.length - 3];
+
 	    this.sbMediaLibrary.setValuesByGUID(guid,
-						1,
-						["ccLicense"],
-						1,
-						[object],
+						2,
+						["ccLicense","ccLicenseCode"],
+						2,
+						[object, license_code],
 						false);
 
 	}
