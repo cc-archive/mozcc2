@@ -15,7 +15,7 @@
  *
  * The Initial Developer of the Original Code is
  * Nathan R. Yergler, Creative Commons.
- * Portions created by the Initial Developer are Copyright (C) 2006
+ * Portions created by the Initial Developer are Copyright (C) 2006 - 2007
  * the Initial Developer. All Rights Reserved.
  *
  * Contributor(s):
@@ -26,15 +26,73 @@
 
 const RDFA_DICT='RDFa';
 
-function RDFA(base_uri) {
+function RdfaNsResolver(document) {
 
-    var ios=Components.classes["@mozilla.org/network/io-service;1"]
+   var documentResolver = document.createNSResolver( document.ownerDocument == null ? 
+	document.documentElement : document.ownerDocument.documentElement );
+
+   var ns_map = {cc : 'http://web.resource.org/cc/',
+                 dc : 'http://purl.org/dc/elements/1.1/',
+                 foaf : 'http://xmlns.com/foaf/0.1/',
+                 rdf : 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+                 rdfs : 'http://www.w3.org/2000/01/rdf-schema#',
+                 svg : 'http://www.w3.org/2000/svg'
+                 };
+
+   function resolver(prefix) {
+
+      return documentResolver(prefix) || ns_map[prefix] ||  'http://www.w3.org/1999/xhtml';
+      
+   } // resolver
+
+   return resolver;
+
+} // RdfaNsResolver
+
+function RDFA(meta_doc) {
+
+    // store a reference to the meta_doc object
+    this.meta_doc = meta_doc;
+
+    this.ios=Components.classes["@mozilla.org/network/io-service;1"]
                   .getService(Components.interfaces.nsIIOService);
-    this.base_uri = ios.newURI(base_uri, null, null);
+    this.base_uri = this.ios.newURI(meta_doc.uri, null, null);
+    this.resolver = RdfaNsResolver(meta_doc.document);
 
     this.resolve_uri = function (curie_or_uri) {
-       // XXX
-       return this.base_uri.resolve(curie_or_uri); //  curie_or_uri;
+
+       // see if we have a relative URI
+       if (curie_or_uri.length > 0 && curie_or_uri[0] == "/") {
+          return this.base_uri.resolve(curie_or_uri);
+       }
+
+       // see if we already have a URI
+       try{
+          var is_uri = this.ios.newURI(curie_or_uri, null, null);
+          if (is_uri.host && is_uri.scheme)
+             return curie_or_uri;
+       } catch (foo) {
+          // we catch the exception that results from trying
+          // to get a non-existant host attribute
+          
+       } // try and poke the bits if this is already a real URI
+
+       // make sure there's a namespace
+       if (curie_or_uri.indexOf(':') == -1) {
+          curie_or_uri = ":" + curie_or_uri;
+       }
+
+       // split the curie into a ns and suffix
+       var pieces = curie_or_uri.split(':', 2);
+
+       // resolve the namespace
+       var ns = this.resolver(pieces[0]);
+       if ((ns[ns.length - 1] != '#') && (ns[ns.length - 1] != '/'))
+           ns = ns + "#";
+
+       // join the namespace and the suffix
+       return ns + pieces[1]; 
+
     } // resolve_uri
 
     this.resolve_subject = function (node) {
@@ -57,7 +115,7 @@ function RDFA(base_uri) {
 
         // traverse up tree looking for an about tag
 	var about = document.evaluate( "ancestor-or-self::*/@about",
- 		node, null, XPathResult.STRING_TYPE, null);
+ 		node, RdfaNsResolver(document), XPathResult.STRING_TYPE, null);
 
         if (about.stringValue) {
             return this.resolve_uri(about.stringValue);
@@ -69,9 +127,6 @@ function RDFA(base_uri) {
 
     this.parse = function(document, sink) {
 
-    	// create a namespace resolver for this document
-    	var ns_resolver = meta_doc.document.createNSResolver( document.documentElement );
-
         // RDFA_ATTRS = ("about", "property", "rel", "rev", "href", "content")
         // PRED_ATTRS = ("rel", "rev", "property")
 
@@ -80,7 +135,7 @@ function RDFA(base_uri) {
 
         // using the property
 	var prop_nodes = document.evaluate( "//*[@property]", document.documentElement,
-		ns_resolver, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null );
+		RdfaNsResolver(document), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null );
 
 	for ( var i=0 ; i < prop_nodes.snapshotLength; i++ ) {
 	    var node = prop_nodes.snapshotItem(i);
@@ -97,7 +152,7 @@ function RDFA(base_uri) {
 
 	// using rel
 	var rel_nodes = document.evaluate( '//*[@rel]', document.documentElement,
-		ns_resolver, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null );
+		RdfaNsResolver(document), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null );
 
 	for (var i=0; i < rel_nodes.snapshotLength; i++) {
 	    var node = rel_nodes.snapshotItem(i);
@@ -115,7 +170,7 @@ function RDFA(base_uri) {
 	    
 	// using rev
 	var rel_nodes = document.evaluate( '//*[@rev]', document.documentElement,
-		ns_resolver, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null );
+		RdfaNsResolver(document), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null );
 
 	for (var i=0; i < rel_nodes.snapshotLength; i++) {
 	    var node = rel_nodes.snapshotItem(i);
@@ -154,7 +209,7 @@ function rdfa_dict_extractor(meta_doc) {
     getStorage().flush_assertions(meta_doc.page_id, RDFA_DICT);
 
     // create the RDFa parser
-    var parser = new RDFA(meta_doc.uri);
+    var parser = new RDFA(meta_doc);
 
     // parse the document 
     parser.parse(meta_doc.document, triple_sink);
