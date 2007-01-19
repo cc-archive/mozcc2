@@ -259,7 +259,7 @@ function _mfs_query(subject, predicate) {
 	stmt.bindUTF8StringParameter(1, predicate);
 
 	while (stmt.executeStep()) {
-	    result.push([stmt.getUTF8String(0), stmt.getInt32(1)]);
+	    result.push([stmt.getUTF8String(0), stmt.getUTF8String(1)]);
 	} // while more data...
 
     } finally {
