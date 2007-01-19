@@ -68,6 +68,11 @@ function updateStatusBar(page_uri) {
     // look up the license for this page, if available
     license_data = getStorage().query(page_uri,
 				      "http://web.resource.org/cc/license");
+    if (license_data.length == 0) {
+       // fall back to xhtml:license
+       license_data = getStorage().query(page_uri,
+				      "http://www.w3.org/1999/xhtml#license");
+    }
 
     // if we retrieved license information, set the tooltip and enable the icon
     if (license_data.length > 0) {
