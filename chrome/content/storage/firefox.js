@@ -221,7 +221,7 @@ function _mfs_assert(pageid, triple, provider) {
 
     if (triple.predicate.Value != null) {
 	stmt.bindUTF8StringParameter(1, triple.predicate.Value);
-    } else {
+    } else if (triple.predicate.suffix) {
 
 	// assume this is an RDFa triple
 	if (triple.predicate.suffix != 'license') {
@@ -229,6 +229,8 @@ function _mfs_assert(pageid, triple, provider) {
 	} else {
 	    stmt.bindUTF8StringParameter(1, 'http://web.resource.org/cc/license');
 	}
+    } else {
+        stmt.bindUTF8StringParameter(1, triple.predicate);
     }
 
     stmt.bindUTF8StringParameter(2, triple.object.Value != null?
