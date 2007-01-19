@@ -84,7 +84,7 @@ function showMetaFoxWindow() {
       } else 
       if (link_href.charAt(0) == '/') {
          // absolute link; add the server
-	abs_parts = base_uri.split('/');
+	var abs_parts = base_uri.split('/');
 
 	// drop off everything after the server
 	while (abs_parts.length > 3) {
@@ -95,7 +95,7 @@ function showMetaFoxWindow() {
 	return abs_parts.join('/');
       } else {
          // relative link
-         abs_parts = base_uri.split('/');
+         var abs_parts = base_uri.split('/');
 
          // assemble the new link
          abs_parts.pop()

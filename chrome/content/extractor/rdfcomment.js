@@ -29,15 +29,15 @@ const RDFCOMMENT = "rdfcomment";
 function extractRdf(inputstr, curr_doc_uri, results) {
 
     // check for embedded RDF
-    rdf_regex = /<rdf:rdf[\w\W]*?<\/rdf:rdf>/i;
+    var rdf_regex = /<rdf:rdf[\w\W]*?<\/rdf:rdf>/i;
 
-    match = inputstr.match(rdf_regex);
+    var match = inputstr.match(rdf_regex);
 
     // extract any embedded RDF
     while (match != null) {
 
 	// create a new parser and process the match
-	index = results.push(new ccRdf()) - 1;
+	var index = results.push(new ccRdf()) - 1;
         results[index].parse(match, curr_doc_uri);
 
 	// shorten the input string

@@ -34,7 +34,7 @@ function find_license_links(meta_doc) {
 
     if (head_tags.length < 1) 
 	// no head element
-	return;
+	return result;
 
     var head = head_tags[0];
 
@@ -59,7 +59,7 @@ function find_license_links(meta_doc) {
 function rdf_link(meta_doc) {
 
     // find all remote license links
-	links = find_license_links(meta_doc);
+	var links = find_license_links(meta_doc);
 
 	for (var i = 0; i < links.length; i++) {
 	    var lic_link_uri = links[i];

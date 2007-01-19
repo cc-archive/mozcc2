@@ -66,7 +66,7 @@ function onLoadContent(event) {
 		'lastModified' : lm,
 		'changed' : getStorage().needs_update(uri, lm),
 		'page_id' : null,
-		'seen' : new Array(),
+		'seen' : new Array()
     }
 
     // update the page table if necessary; do this before calling extractors

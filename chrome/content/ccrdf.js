@@ -351,6 +351,7 @@ function ccRdf() {
       // generator which yields all available resources in the datastore
       // objects yielded are instances of nsIRDFResource
       var resources = this.store.GetAllResources();
+      var current = -1;
 
       while(resources.hasMoreElements()) {
 	  current = resources.getNext();
@@ -367,6 +368,7 @@ function ccRdf() {
       // subject should be an instance of nsIRDFResource
 
       var arcs = this.store.ArcLabelsOut(subject);
+      var current = -1;
 
       while(arcs.hasMoreElements()) {
 	  current = arcs.getNext();
@@ -383,6 +385,7 @@ function ccRdf() {
       // subject and arclabel are instances of nsIRDFResource
 
       var objects = this.store.GetTargets(subject, arclabel, true);
+      var current = -1;
 
       while (objects.hasMoreElements()) {
 	  current = objects.getNext();
@@ -429,17 +432,17 @@ function ccRdf() {
 
 	logMessage("ccrdf: instantiating datasource");
 
-	xml = '@mozilla.org/rdf/datasource;1?name=in-memory-datasource';
+	var xml = '@mozilla.org/rdf/datasource;1?name=in-memory-datasource';
 	this.store = Components.classes[xml].
              createInstance(Components.interfaces.nsIRDFDataSource);
 
     } // if this.store is null...
 
     // Used to create a URI below
-    ios = Components.classes["@mozilla.org/network/io-service;1"].
+    var ios = Components.classes["@mozilla.org/network/io-service;1"].
       getService(Components.interfaces.nsIIOService);
-    xmlParser = '@mozilla.org/rdf/xml-parser;1';
-    parser = Components.classes[xmlParser].
+    var xmlParser = '@mozilla.org/rdf/xml-parser;1';
+    var parser = Components.classes[xmlParser].
          createInstance(Components.interfaces.nsIRDFXMLParser);
 
     uri = ios.newURI(this.uri, null, null);
