@@ -29,11 +29,11 @@
 <overlay id="mozcc-page-info" 
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
- <script type="application/x-javascript" 
+ <script type="application/x-javascript;version=1.7" 
          src="chrome://mozcc/content/support.js" />
- <script type="application/x-javascript" 
-         src="chrome://mozcc/content/storage.js" />
- <script type="application/x-javascript" 
+ <script type="application/x-javascript;version=1.7" 
+         src="chrome://mozcc/content/storage/firefox.js" />
+ <script type="application/x-javascript;version=1.7" 
          src="chrome://mozcc/content/pageinfo.js" />
 
  <!-- user interface overlay for the pageinfo window -->

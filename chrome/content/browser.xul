@@ -31,26 +31,28 @@
 
 
   <!-- load mozcc javascript libraries -->
-  <script type="application/x-javascript" 
+  <script type="application/x-javascript;version=1.7" 
           src="chrome://mozcc/content/support.js" />
-  <script type="application/x-javascript" 
+  <script type="application/x-javascript;version=1.7" 
           src="chrome://mozcc/content/storage/firefox.js" />
-  <script type="application/x-javascript" 
+  <script type="application/x-javascript;version=1.7" 
           src="chrome://mozcc/content/ccrdf.js" />
-  <script type="application/x-javascript" 
+  <script type="application/x-javascript;version=1.7" 
           src="chrome://mozcc/content/mozcc.js" /> 
-  <script type="application/x-javascript" 
+  <script type="application/x-javascript;version=1.7" 
           src="chrome://mozcc/content/pagehandler.js" /> 
 
   <!-- Metadata Extractor libraries -->
-  <script type="application/x-javascript" 
+  <script type="application/x-javascript;version=1.7" 
           src="chrome://mozcc/content/extractor/rdfcomment.js" />
-  <script type="application/x-javascript" 
+  <script type="application/x-javascript;version=1.7" 
           src="chrome://mozcc/content/extractor/rdf_link.js" />
-  <script type="application/x-javascript"
+<!--
+  <script type="application/x-javascript;version=1.7"
 	  src="chrome://mozcc/content/extractor/rdfa.js" />
-  <script type="application/x-javascript"
+  <script type="application/x-javascript;version=1.7"
 	  src="chrome://mozcc/content/support/rdfa.js" />
+-->
 
  <!-- initialize the mozcc hooks -->
  <script type="application/x-javascript" >
@@ -61,7 +63,8 @@
     // register the metadata extractors
     metadataExtractorRegistry[RDFCOMMENT] = rdfcomment;
     metadataExtractorRegistry[RDF_LINK] = rdf_link;
-    // metadataExtractorRegistry[RDFA_EXTRACTOR] = rdfa_extractor;
+    // we don't register RDFa because it registers itself once it's 
+    // finished the loading process (see extractors/rdfa.js)
     
     // connect the event listeners
     // listen for navigation events
