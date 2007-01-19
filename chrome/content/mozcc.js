@@ -84,8 +84,8 @@ function updateStatusBar(page_uri) {
 	// add the status bar images
 	// ***************************************************************
 	var requires = getStorage().query(license_uri,
-					'http://web.resource.org/cc/requires').
-	    map(last_url_segment);
+					  'http://web.resource.org/cc/requires').map(last_url_segment);
+
 	var prohibits = getStorage().query(license_uri,
 					'http://web.resource.org/cc/prohibits').
 	    map(last_url_segment);
@@ -96,7 +96,7 @@ function updateStatusBar(page_uri) {
 	// attribution
 	if ( (requires.indexOf('notice') > -1) ||
 	     (requires.indexOf('attribution') > -1) ) {
-	    
+
 	    addIcon('attrib');
 	}
 
@@ -107,7 +107,7 @@ function updateStatusBar(page_uri) {
 	}
 
 	// no-derivatives
-	if (permits.indexOf('derivativeworks') == -1) {
+	if ((permits.length > 0) && (permits.indexOf('derivativeworks') == -1)) {
 	    addIcon('nomod');
 	}
 
