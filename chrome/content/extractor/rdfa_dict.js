@@ -31,14 +31,33 @@ function RdfaNsResolver(document) {
    var documentResolver = document.createNSResolver( document.ownerDocument == null ? 
 	document.documentElement : document.ownerDocument.documentElement );
 
-   var ns_map = {cc : 'http://web.resource.org/cc/',
-                 dc : 'http://purl.org/dc/elements/1.1/',
-                 foaf : 'http://xmlns.com/foaf/0.1/',
-                 rdf : 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-                 rdfs : 'http://www.w3.org/2000/01/rdf-schema#',
-                 svg : 'http://www.w3.org/2000/svg'
-                 };
+   // Extract any namespace declarations from the document
+   /* XXX 
+    * We currently do this in a slightly braindead way; if a
+    * document redefines a namespace prefix for a subsection of
+    * the document, the last declaration probably wins for the
+    * entire document.  Namespace handling is going to change
+    * in RDFa, so for now we just suck it up.
+    */
+   var xml_ns_regex = /xmlns:([\S]+)="([\S]+)"/ig;
+   var serializer = new XMLSerializer();
+   var document_text = serializer.serializeToString(document.documentElement);
 
+   // initialize the default namespace map
+   var ns_map = {cc : 'http://web.resource.org/cc/'};
+   var matchInfo = new Array();
+
+   while ((matchInfo = xml_ns_regex.exec(document_text)) != undefined) {
+        if (matchInfo.length < 3) {
+           // something bad happened
+           break;
+        }
+
+	ns_map[matchInfo[1]] = matchInfo[2];
+
+   } // while matching...
+
+   // the actual resolver to be used by other functions
    function resolver(prefix) {
 
       return documentResolver(prefix) || ns_map[prefix] ||  'http://www.w3.org/1999/xhtml';
