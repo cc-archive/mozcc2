@@ -46,7 +46,7 @@ function logMessage(msg) {
     // log a message to the Javascript console with normal severity
     var consoleService = Components.classes["@mozilla.org/consoleservice;1"]
                           .getService(Components.interfaces.nsIConsoleService);
-    consoleService.logStringMessage("MetaFox: " + msg);
+    consoleService.logStringMessage("MozCC: " + msg);
 
 } // logMessage
 
@@ -90,7 +90,9 @@ function showMetaFoxWindow() {
 	while (abs_parts.length > 3) {
 	   abs_parts.pop();
 	} // while more than the server
-	abs_parts.push(link_href);
+
+        // push the absolute link (without the initial '/')
+	abs_parts.push(link_href.substring(1));
 
 	return abs_parts.join('/');
       } else {
