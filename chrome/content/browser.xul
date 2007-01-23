@@ -66,11 +66,9 @@
     metadataExtractorRegistry[RDFA_DICT] = rdfa_dict_extractor;
     
     // connect the event listeners
-    // listen for navigation events
-    getBrowser().addEventListener("load", onLoadContent, true);
-
-    // listen for tab switches
-    getBrowser().addEventListener("select", onSelectTab, false);
+    getBrowser().addEventListener("pageshow", onShowPage, true);
+    // getBrowser().addEventListener("pagehide", onPageHide, true);
+    getBrowser().tabContainer.addEventListener("select", onSelectTab, true);
 
  </script>
 

@@ -15,7 +15,7 @@
  *
  * The Initial Developer of the Original Code is
  * Nathan R. Yergler, Creative Commons.
- * Portions created by the Initial Developer are Copyright (C) 2006
+ * Portions created by the Initial Developer are Copyright (C) 2006 - 2007
  * the Initial Developer. All Rights Reserved.
  *
  * Contributor(s):
@@ -41,13 +41,13 @@ function processPage(meta_doc) {
 
     // call each metadata extractor
     for (x in metadataExtractorRegistry) {
-	// metadataExtractorRegistry[x](meta_doc);
-	window.setTimeout(metadataExtractorRegistry[x], 500, meta_doc);
+	metadataExtractorRegistry[x](meta_doc);
+	// window.setTimeout(metadataExtractorRegistry[x], 500, meta_doc);
     }
 
 } // processPage
 
-function onLoadContent(event) {
+function onShowPage(event) {
     /*
      * Page Load Event Handler
      *
@@ -57,6 +57,9 @@ function onLoadContent(event) {
      * - iterate through the extractors
      *
      */
+
+    if ( (!(event.originalTarget instanceof HTMLDocument)) ||
+         (event.originalTarget != content.document) ) return;
 
     uri = _content.document.documentURI;
     lm = _content.document.lastModified;
@@ -89,7 +92,8 @@ function onLoadContent(event) {
     // update the display window
     onSelectTab(event);
 
-} // onLoadContent
+} // onShowPage
+var onLoadContent = onShowPage;
 
 function onSelectTab(event) {
 
