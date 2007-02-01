@@ -58,36 +58,44 @@ function onShowPage(event) {
      *
      */
 
+    // make sure we're dealing with an HTML document
     if ( (!(event.originalTarget instanceof HTMLDocument)) ||
          (event.originalTarget != content.document) ) return;
 
-    uri = _content.document.documentURI;
-    lm = _content.document.lastModified;
+    // see if we're loading from the cache
+    if (!event.persisted) {
+        // not loading from the cache
+        
+        uri = _content.document.documentURI;
+        lm = _content.document.lastModified;
 
-    meta_doc = {'uri' : uri,
+        meta_doc = {'uri' : uri,
 		'document' : _content.document,
 		'lastModified' : lm,
 		'changed' : getStorage().needs_update(uri, lm),
 		'page_id' : null,
 		'seen' : new Array()
-    }
+        }
 
-    // update the page table if necessary; do this before calling extractors
-    // so that calls to page_id will succeed
-    if (meta_doc.changed) {
+        // update the page table if necessary; 
+        // do this before calling extractors
+        // so that calls to page_id will succeed
+        if (meta_doc.changed) {
 
-	logMessage("lastModified changed; updating stored information.");
+	    logMessage("lastModified changed; updating stored information.");
 
-	// update the last modified information
-	getStorage().update(uri, lm);
+	    // update the last modified information
+	    getStorage().update(uri, lm);
 
-    } // if meta_doc.changed...
+        } // if meta_doc.changed...
 
-    // get the page id to save on future db hits
-    meta_doc.page_id = getStorage().page_id(meta_doc.uri);
+        // get the page id to save on future db hits
+        meta_doc.page_id = getStorage().page_id(meta_doc.uri);
 
-    // process the page contents
-    processPage(meta_doc);
+        // process the page contents
+        processPage(meta_doc);
+
+    } // if not loading from cache...
 
     // update the display window
     onSelectTab(event);
