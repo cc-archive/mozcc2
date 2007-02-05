@@ -30,27 +30,24 @@ function find_license_links(meta_doc) {
     // return a list of license links found in <link rel="meta" ...> tags
 
     var result = new Array();
-    var head_tags = meta_doc.document.getElementsByTagName("head");
 
-    if (head_tags.length < 1) 
-	// no head element
-	return result;
+    // query the document using xpath
+    var contextNode = meta_doc.document;
+    var nsResolver = meta_doc.document.createNSResolver( 
+          contextNode.ownerDocument == null ? 
+                                   contextNode.documentElement : 
+                                   contextNode.ownerDocument.documentElement );
 
-    var head = head_tags[0];
+    var link_snapshot =meta_doc.document.evaluate( '//link[@rel="meta"]/@href',
+        contextNode, document.createNSResolver(meta_doc.document), 
+        XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
 
-    var link_tags = head.getElementsByTagName("link"); 
+    for ( var i=0; i < link_snapshot.snapshotLength; i++) {
 
-    var i = 0;
-    for (i = 0; i < link_tags.length; i++) {
+        result.push(makeAbsolute(meta_doc.uri, 
+                                 link_snapshot.snapshotItem(i).textContent));
 
-	var current = link_tags.item(i);
-
-	if (current.attributes.getNamedItem("rel").nodeValue == "meta") {
-	    var href = current.attributes.getNamedItem("href");
-	    result.push(makeAbsolute(meta_doc.uri, href.nodeValue));
-	} // if rel == meta
-
-    } // for each link tag
+    } // for each node found
 
     return result;
 
