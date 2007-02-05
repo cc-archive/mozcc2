@@ -37,6 +37,22 @@
  */
 var metadataExtractorRegistry = [ ];
 
+function make_meta_doc(a_document) {
+   // Take a Document object and return a meta_doc instance.
+
+   meta_doc = {'uri' : a_document.documentURI,
+               'document' : a_document,
+               'lastModified' : a_document.lastModified,
+               'changed' : getStorage().needs_update(a_document.documentURI,
+                                                     a_document.lastModified),
+               'page_id' : null,
+               'seen' : new Array()
+              }
+
+   return meta_doc;
+
+} // make_meta_doc
+
 function processPage(meta_doc) {
 
     // call each metadata extractor
@@ -65,17 +81,7 @@ function onShowPage(event) {
     // see if we're loading from the cache
     if (!event.persisted) {
         // not loading from the cache
-        
-        uri = _content.document.documentURI;
-        lm = _content.document.lastModified;
-
-        meta_doc = {'uri' : uri,
-		'document' : _content.document,
-		'lastModified' : lm,
-		'changed' : getStorage().needs_update(uri, lm),
-		'page_id' : null,
-		'seen' : new Array()
-        }
+        var meta_doc = make_meta_doc(_content.document);
 
         // update the page table if necessary; 
         // do this before calling extractors
@@ -85,7 +91,7 @@ function onShowPage(event) {
 	    logMessage("lastModified changed; updating stored information.");
 
 	    // update the last modified information
-	    getStorage().update(uri, lm);
+	    getStorage().update(meta_doc.uri, meta_doc.lastModified);
 
         } // if meta_doc.changed...
 
