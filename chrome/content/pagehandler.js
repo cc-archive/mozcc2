@@ -63,6 +63,96 @@ function processPage(meta_doc) {
 
 } // processPage
 
+function processUri(uri) {
+    // retrieve the specified URI and scan it for rdf-in-a-commnent
+    // XXX this should eventually be a generalized entry point to all parsers
+
+    logMessage("Retrieving additional metadata from " + uri);
+
+    // retrieve the remote URI
+    var req = new XMLHttpRequest();
+
+    req.open('GET', uri, true);
+    req.remote_uri = uri;
+
+    // attach the handler and go...
+    req.onload = function(event) {
+
+	// ******************************************************
+	// ** 
+	// **  onLoad Handler
+	// **
+
+	// extract RDF from the returned document
+	var results = new Array();
+
+	var lastModified = event.target.getResponseHeader("Last-Modified");
+
+	if (lastModified == null) {
+	    // lastModified not provided; 
+	    // use a hash of the response text instead
+	    var obj = Components.classes[
+			    "@mozilla.org/io/string-input-stream;1"].
+			createInstance(
+		           Components.interfaces.nsIStringInputStream);
+
+	    obj.setData(event.target.responseText, -1);
+	    var hashFactory = Components.classes[
+			      "@mozilla.org/security/hash;1"].
+		createInstance(Components.interfaces.nsICryptoHash);
+
+	    // use the SHA1 hash
+	    hashFactory.initWithString("SHA1");
+	    hashFactory.updateFromStream(obj, -1);
+
+	    lastModified = hashFactory.finish(true);
+	    logMessage("using hash instead of lastModified: " + lastModified);
+	} // if lastModified not provided
+
+	var remote_uri = event.target.remote_uri;
+	var remote_pageid = -1;
+
+	// check our record last-modified information if the server
+	// provided a last-modified header for the request
+	if (!getStorage().needs_update(remote_uri, lastModified)) {
+
+		 // no update needed
+		 return;
+
+	} else {
+	    // make sure we're in the pages table
+	    getStorage().update(remote_uri, lastModified);
+
+	    // get the page id for the remote data source
+	    remote_pageid = getStorage().page_id(remote_uri);
+
+	    // flush the current rdf for this page + provider
+	    getStorage().flush_assertions(remote_pageid, RDFCOMMENT);
+
+	} // if needs updated
+
+
+	extractRdf(event.target.responseText, 
+		   event.target.remote_uri, results);
+
+	for each (var block in results) {
+		for each (var t in block.triples()) {
+			getStorage().assert(remote_pageid, t, RDFCOMMENT);
+			// logMessage(remote_pageid + " " + t);
+		    } // for each triple...
+
+	    } // for each RDF block extracted
+		 
+	// make another call to the tab selector to pick up any changes
+	onSelectTab(null);
+
+    } // onload handler
+
+    req.send(null);
+
+} // processUri
+
+
 function onShowPage(event) {
     /*
      * Page Load Event Handler
