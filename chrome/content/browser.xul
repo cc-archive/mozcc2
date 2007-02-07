@@ -49,10 +49,6 @@
           src="chrome://mozcc/content/extractor/rdf_link.js" />
   <script type="application/x-javascript;version=1.7"
 	  src="chrome://mozcc/content/extractor/rdfa_dict.js" />
-<!--
-  <script type="application/x-javascript;version=1.7"
-	  src="chrome://mozcc/content/support/rdfa.js" />
--->
 
  <!-- initialize the mozcc hooks -->
  <script type="application/x-javascript" >

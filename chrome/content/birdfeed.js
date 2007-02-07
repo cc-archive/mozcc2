@@ -40,15 +40,7 @@ function mozcc_webplaylist_observer() {
 	    uri = SBDataGetStringValue( "browser.uri" );
 	    lm = null;
 
-	    meta_doc = {'uri' : uri,
-			'document' : browser.contentDocument,
-			'lastModified' : browser.contentDocument.lastModified,
-			'changed' : getStorage().needs_update(uri, lm),
-			'page_id' : null,
-			'seen' : new Array(),
-	    }
-
-
+            meta_doc = make_meta_doc(browser.contentDocument);
 	    processPage(meta_doc);
 
 	} // if we're done parsing the web playlist...
