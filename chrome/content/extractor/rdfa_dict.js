@@ -219,6 +219,14 @@ function rdfa_dict_extractor(meta_doc) {
 
 	   getStorage().assert(meta_doc.page_id, triple, RDFA_DICT);
 
+           // if this is a license assertion, follow the link for license info
+           if (p == "http://web.resource.org/cc/license" ||
+               p == "http://www.w3.org/1999/xhtml#license") {
+
+              processUri(o);
+
+           }
+
 	} // triple_sink
 
     // short circuit -- if the page hasn't changed, the comments haven't either
