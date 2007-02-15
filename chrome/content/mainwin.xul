@@ -32,26 +32,26 @@
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <!-- load mozcc javascript libraries -->
-  <script type="application/x-javascript" 
+  <script type="application/x-javascript;version=1.7" 
           src="chrome://mozcc/content/support.js" />
-  <script type="application/x-javascript" 
+  <script type="application/x-javascript;version=1.7" 
           src="chrome://mozcc/content/storage/songbird.js" />
-  <script type="application/x-javascript" 
+  <script type="application/x-javascript;version=1.7" 
           src="chrome://mozcc/content/ccrdf.js" />
-  <script type="application/x-javascript" 
+  <script type="application/x-javascript;version=1.7" 
           src="chrome://mozcc/content/mozcc.js" /> 
-  <script type="application/x-javascript" 
+  <script type="application/x-javascript;version=1.7" 
+          src="chrome://mozcc/content/targets/songbird.js" /> 
+  <script type="application/x-javascript;version=1.7" 
           src="chrome://mozcc/content/pagehandler.js" /> 
 
   <!-- Metadata Extractor libraries -->
-  <script type="application/x-javascript" 
+  <script type="application/x-javascript;version=1.7" 
           src="chrome://mozcc/content/extractor/rdfcomment.js" />
-  <script type="application/x-javascript" 
+  <script type="application/x-javascript;version=1.7" 
           src="chrome://mozcc/content/extractor/rdf_link.js" />
-  <script type="application/x-javascript"
-	  src="chrome://mozcc/content/extractor/rdfa.js" />
-  <script type="application/x-javascript"
-	  src="chrome://mozcc/content/support/rdfa.js" />
+  <script type="application/x-javascript;version=1.7"
+	  src="chrome://mozcc/content/extractor/rdfa_dict.js" />
 
  <!-- initialize the mozcc hooks -->
  <script type="application/x-javascript" >
@@ -60,11 +60,12 @@
 
     metadataExtractorRegistry[RDFCOMMENT] = rdfcomment;
     metadataExtractorRegistry[RDF_LINK] = rdf_link;
-    metadataExtractorRegistry[RDFA_EXTRACTOR] = rdfa_extractor;
+    metadataExtractorRegistry[RDFA_DICT] = rdfa_dict_extractor;
     
  </script>
 
   <!-- Songbird specific support -->
-  <script type="text/javascript" src="chrome://mozcc/content/birdfeed.js" />
+  <script type="text/javascript;version=1.7" 
+          src="chrome://mozcc/content/birdfeed.js" />
 
 </overlay>
