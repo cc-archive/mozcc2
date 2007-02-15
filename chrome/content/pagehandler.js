@@ -201,6 +201,8 @@ var onLoadContent = onShowPage;
 
 function onSelectTab(event) {
 
-    updateStatusBar(_mozcc_get_document());
+    var uri = _mozcc_get_document().documentURI;
+
+    if (uri) updateStatusBar(uri);
 
 } // onSelectTab
