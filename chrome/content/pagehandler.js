@@ -201,7 +201,6 @@ var onLoadContent = onShowPage;
 
 function onSelectTab(event) {
 
-    // logMessage("Tab selection changed." + event);
-    updateStatusBar(_content.document.documentURI);
+    updateStatusBar(_mozcc_get_document());
 
 } // onSelectTab
