@@ -119,7 +119,9 @@ function _mfs_assert(pageid, triple, provider) {
 		   triple.subject.Value : triple.subject);
 
     var predicate = (triple.predicate.Value != null?
-		     triple.predicate.Value : triple.predicate.uri());
+		     triple.predicate.Value :
+                       (triple.predicate.suffix? triple.predicate.uri():
+                                                 triple.predicate));
 	
     var object = (triple.object.Value != null?
 		  trip.object.Value : triple.object);
@@ -132,6 +134,7 @@ function _mfs_assert(pageid, triple, provider) {
 	    // add the license metadata
 	    license_uri_pieces = object.split("/");
 	    license_code = license_uri_pieces[license_uri_pieces.length - 3];
+            license_code = license_code.replace('+', 'plus');
 
 	    this.sbMediaLibrary.setValuesByGUID(guid,
 						2,
