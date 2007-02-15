@@ -45,7 +45,7 @@ function clearStatusBar() {
 
     var panel = document.getElementById('mozcc-attrib-icons');
 
-    while(panel.hasChildNodes()) {
+    if (panel) while(panel.hasChildNodes()) {
 	panel.removeChild(panel.firstChild);
     }
 
@@ -68,6 +68,10 @@ function updateStatusBar(page_uri) {
     // look up the license for this page, if available
     license_data = getStorage().query(page_uri,
 				      "http://web.resource.org/cc/license");
+
+    // make sure the query returned something
+    if (!license_data) return;
+
     if (license_data.length == 0) {
        // fall back to xhtml:license
        license_data = getStorage().query(page_uri,
