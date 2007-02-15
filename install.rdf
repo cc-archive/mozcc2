@@ -5,7 +5,7 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>{3b2b81a7-05f0-4ce5-9157-6414e2472266}</em:id>
-    <em:version>2.4.1</em:version>
+    <em:version>2.4.2</em:version>
     <em:type>2</em:type>
    
     <!-- Firefox target application -->
@@ -21,15 +21,18 @@
     <em:targetApplication>
       <Description>
         <em:id>songbird@songbirdnest.com </em:id>
-        <em:minVersion>0.2.0</em:minVersion>
-        <em:maxVersion>1.0+</em:maxVersion>
+        <em:minVersion>0.2.5</em:minVersion>
+        <em:maxVersion>0.2.*</em:maxVersion>
       </Description>
     </em:targetApplication>
 
     <!-- Front End MetaData -->
     <em:name>MozCC</em:name>
-    <em:description>Extracts and stores metadata embedded in pages, exposing Creative Commons license metadata.</em:description>
-    <em:creator>Creative Commons</em:creator>
+    <em:description>Detects and exposes metadata embedded in web pages.</em:description>
     <em:homepageURL>http://wiki.creativecommons.org/MozCC</em:homepageURL>
+
+    <em:creator>Creative Commons</em:creator>
+    <em:developer>Nathan R. Yergler</em:creator>
+
   </Description>      
 </RDF>
