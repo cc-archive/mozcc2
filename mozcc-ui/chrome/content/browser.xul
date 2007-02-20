@@ -33,24 +33,27 @@
   <!-- load mozcc javascript libraries -->
   <script type="application/x-javascript;version=1.7" 
           src="chrome://mozcc/content/support.js" />
+
   <script type="application/x-javascript;version=1.7" 
-          src="chrome://mozcc/content/storage/firefox.js" />
+          src="chrome://metacore/content/storage/firefox.js" />
   <script type="application/x-javascript;version=1.7" 
-          src="chrome://mozcc/content/ccrdf.js" />
+          src="chrome://metacore/content/ccrdf.js" />
+
   <script type="application/x-javascript;version=1.7" 
           src="chrome://mozcc/content/mozcc.js" /> 
+
   <script type="application/x-javascript;version=1.7" 
-          src="chrome://mozcc/content/targets/firefox.js" /> 
+          src="chrome://metacore/content/targets/firefox.js" /> 
   <script type="application/x-javascript;version=1.7" 
-          src="chrome://mozcc/content/pagehandler.js" /> 
+          src="chrome://metacore/content/pagehandler.js" /> 
 
   <!-- Metadata Extractor libraries -->
   <script type="application/x-javascript;version=1.7" 
-          src="chrome://mozcc/content/extractor/rdfcomment.js" />
+          src="chrome://metacore/content/extractor/rdfcomment.js" />
   <script type="application/x-javascript;version=1.7" 
-          src="chrome://mozcc/content/extractor/rdf_link.js" />
+          src="chrome://metacore/content/extractor/rdf_link.js" />
   <script type="application/x-javascript;version=1.7"
-	  src="chrome://mozcc/content/extractor/rdfa_dict.js" />
+	  src="chrome://metacore/content/extractor/rdfa_dict.js" />
 
  <!-- initialize the mozcc hooks -->
  <script type="application/x-javascript" >
@@ -73,16 +76,6 @@
 
  <!-- user interface overlay for the browser window -->
 
- <!-- menu bar -->
-<!--
- <menubar id="main-menubar">
-   <menu id="metadata-menu" label="Metadata">
-     <menupopup>
-       <menuitem label="Pages" oncommand="window.openDialog('chrome://mozcc/conent/windows/pages.xul');" />
-     </menupopup>
-   </menu>
- </menubar>
--->
  <!-- statusbar -->
  <statusbar id="status-bar">
 
