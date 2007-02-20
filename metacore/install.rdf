@@ -4,8 +4,8 @@
      xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
   <Description about="urn:mozilla:install-manifest">
-    <em:id>{3b2b81a7-05f0-4ce5-9157-6414e2472266}</em:id>
-    <em:version>2.4.3</em:version>
+    <em:id>metacore@creativecommons.org</em:id>
+    <em:version>2.5.0</em:version>
     <em:type>2</em:type>
    
     <!-- Firefox target application -->
@@ -27,8 +27,8 @@
     </em:targetApplication>
 
     <!-- Front End MetaData -->
-    <em:name>MozCC</em:name>
-    <em:description>Detects and exposes metadata embedded in web pages.</em:description>
+    <em:name>MetaCore</em:name>
+    <em:description>Provides metadata extraction services to other extensions.</em:description>
     <em:homepageURL>http://wiki.creativecommons.org/MozCC</em:homepageURL>
 
     <em:creator>Creative Commons</em:creator>

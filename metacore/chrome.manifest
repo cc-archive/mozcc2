@@ -15,7 +15,7 @@
 #
 # The Initial Developer of the Original Code is
 # Nathan R. Yergler, Creative Commons.
-# Portions created by the Initial Developer are Copyright (C) 2006
+# Portions created by the Initial Developer are Copyright (C) 2006-2007
 # the Initial Developer. All Rights Reserved.
 #
 # Contributor(s):
@@ -25,21 +25,8 @@
 # ***** END LICENSE BLOCK *****
 
 
-# MozCC 2 Chrome Manifest
+# Metacore Chrome Manifest
 # -----------------------
 
 # register directories
-content	mozcc		  chrome/content/  xpcnativewrappers=yes
-skin    mozcc rubberducky chrome/skin/
-
-# register overlays
-# -----------------
-
-# Firefox
-
-overlay	chrome://browser/content/browser.xul	chrome://mozcc/content/browser.xul application={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
-overlay chrome://browser/content/pageInfo.xul	chrome://mozcc/content/pageInfo.xul application={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
-
-# Songbird
-overlay chrome://rubberducky/content/xul/mainwin.xul chrome://mozcc/content/mainwin.xul application=songbird@songbirdnest.com
-style chrome://songbird/content/xul/playlist_test.xul?library chrome://mozcc/skin/mozcc.css
+content	metacore	  chrome/content/  xpcnativewrappers=yes
