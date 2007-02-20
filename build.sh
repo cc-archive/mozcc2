@@ -9,5 +9,9 @@ cd metacore
 zip -r ../metacore.xpi *
 cd ..
 
+cd mozcc-ui
+zip -r ../mozcc-ui.xpi *
+cd ..
+
 # create the bundle
-zip -r mozcc.xpi install.rdf metacore.xpi 
+zip -r mozcc.xpi install.rdf metacore.xpi mozcc-ui.xpi

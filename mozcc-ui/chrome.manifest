@@ -1,0 +1,45 @@
+# ***** BEGIN LICENSE BLOCK *****
+# Version: MPL 1.1
+#
+# The contents of this file are subject to the Mozilla Public License Version
+# 1.1 (the "License"); you may not use this file except in compliance with
+# the License. You may obtain a copy of the License at
+# http://www.mozilla.org/MPL/
+#
+# Software distributed under the License is distributed on an "AS IS" basis,
+# WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+# for the specific language governing rights and limitations under the
+# License.
+#
+# The Original Code is MozCC 2.
+#
+# The Initial Developer of the Original Code is
+# Nathan R. Yergler, Creative Commons.
+# Portions created by the Initial Developer are Copyright (C) 2006
+# the Initial Developer. All Rights Reserved.
+#
+# Contributor(s):
+#
+# Nathan R. Yergler <nathan@creativecommons.org>
+#
+# ***** END LICENSE BLOCK *****
+
+
+# MozCC 2 Chrome Manifest
+# -----------------------
+
+# register directories
+content	mozcc		  chrome/content/  xpcnativewrappers=yes
+skin    mozcc rubberducky chrome/skin/
+
+# register overlays
+# -----------------
+
+# Firefox
+
+overlay	chrome://browser/content/browser.xul	chrome://mozcc/content/browser.xul application={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
+overlay chrome://browser/content/pageInfo.xul	chrome://mozcc/content/pageInfo.xul application={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
+
+# Songbird
+overlay chrome://rubberducky/content/xul/mainwin.xul chrome://mozcc/content/mainwin.xul application=songbird@songbirdnest.com
+style chrome://songbird/content/xul/playlist_test.xul?library chrome://mozcc/skin/mozcc.css
