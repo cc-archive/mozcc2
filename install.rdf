@@ -4,9 +4,9 @@
      xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
   <Description about="urn:mozilla:install-manifest">
-    <em:id>mozccng@creativecommons.org</em:id>
-    <em:name>MozCC NG Bundle</em:name>
-    <em:version>1.0</em:version>
+    <em:id>mozcc-bundle@creativecommons.org</em:id>
+    <em:name>MozCC Extension Bundle</em:name>
+    <em:version>0.5</em:version>
     <em:type>32</em:type>
    
     <!-- Firefox target application -->
